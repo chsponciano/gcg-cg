@@ -15,10 +15,8 @@ namespace gcgcg
             base.PontosRemoverTodos();
             for (double i = .0; i <= 72.0; i++)
             {
-                var theta = 2.0 * Math.PI * i / 72.0;
-                var x = 100.0 * Math.Sin(theta);
-                var y = 100.0 * Math.Cos(theta);
-                base.PontosAdicionar(new Ponto4D(x, y));
+                double theta = 2.0 * Math.PI * i / 72.0;
+                base.PontosAdicionar(new Ponto4D(100.0 * Math.Sin(theta), 100.0 * Math.Cos(theta)));
             }
 
         }

@@ -68,6 +68,24 @@ namespace gcgcg
         case Key.M:
           moverPto = !moverPto;
           break;
+        case Key.E:	
+            camera.PanEsquerda();	
+            break;	
+        case Key.D:	
+            camera.PanDireita();	
+            break;	
+        case Key.C:	
+            camera.PanCima();	
+            break;	
+        case Key.B:	
+            camera.PanBaixo();	
+            break;	
+        case Key.I:	
+            camera.ZoomIn();	
+            break;	
+        case Key.O:	
+            camera.ZoomOut();	
+            break;
       }
     }
 
