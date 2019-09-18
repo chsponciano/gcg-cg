@@ -7,11 +7,8 @@ namespace gcgcg
   internal abstract class Objeto
   {
     protected string rotulo;
-    private PrimitiveType primitivaTipo = PrimitiveType.LineLoop;
-    private float primitivaTamanho = 2;
-    private BBox bBox = new BBox();
-    private List<Objeto> objetosLista = new List<Objeto>();
-
+    private PrimitiveType primitivaTipo = PrimitiveType.Points;
+    private float primitivaTamanho = 7;
 
     public Objeto(string rotulo)
     {
@@ -24,28 +21,8 @@ namespace gcgcg
     public void Desenhar()
     {
       DesenharAramado();
-      for (var i = 0; i < objetosLista.Count; i++)
-      {
-        objetosLista[i].Desenhar();
-      }
     }
+
     protected abstract void DesenharAramado();
-    public void FilhoAdicionar(Objeto filho)
-    {
-      this.objetosLista.Add(filho);
-    }
-    public void FilhoRemover(Objeto filho)
-    {
-      this.objetosLista.Remove(filho);
-    }
-    protected abstract void PontosExibir();
-    public void PontosExibirObjeto()
-    {
-      PontosExibir();
-      for (var i = 0; i < objetosLista.Count; i++)
-      {
-        objetosLista[i].PontosExibirObjeto();
-      }
-    }
   }
 }

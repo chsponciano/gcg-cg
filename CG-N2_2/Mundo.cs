@@ -24,18 +24,14 @@ namespace gcgcg
     private Camera camera = new Camera();
     protected List<Objeto> objetosLista = new List<Objeto>();
     private bool moverPto = false;
-    //FIXME: estes objetos não devem ser atributos do Mundo
-    private Retangulo retanguloA, retanguloB;
+
+    private Circulo circuloA;
 
     protected override void OnLoad(EventArgs e)
     {
       base.OnLoad(e);
-
-      retanguloA = new Retangulo("A", new Ponto4D(50, 50, 0), new Ponto4D(150, 150, 0));
-      retanguloB = new Retangulo("B", new Ponto4D(50, 150, 0), new Ponto4D(150, 250, 0));
-      objetosLista.Add(retanguloA);
-      objetosLista.Add(retanguloB);
-
+      circuloA = new Circulo("A");            
+      objetosLista.Add(circuloA);
       GL.ClearColor(Color.Gray);
     }
     protected override void OnUpdateFrame(FrameEventArgs e)
@@ -52,8 +48,6 @@ namespace gcgcg
 
       GL.Clear(ClearBufferMask.ColorBufferBit);
       GL.MatrixMode(MatrixMode.Modelview);
-      GL.LoadIdentity();
-
       Sru3D();
 
       for (var i = 0; i < objetosLista.Count; i++)
@@ -66,34 +60,20 @@ namespace gcgcg
 
     protected override void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
     {
-      if (e.Key == Key.Escape)
-        Exit();
-      else
-      if (e.Key == Key.E)
+      switch (e.Key)
       {
-        for (var i = 0; i < objetosLista.Count; i++)
-        {
-          objetosLista[i].PontosExibirObjeto();
-        }
-      }
-      else
-      if (e.Key == Key.M)
-      {
-        moverPto = !moverPto;
-      }
-    }
-
-    protected override void OnMouseMove(MouseMoveEventArgs e)
-    {
-      if (moverPto)
-      {
-        retanguloB.MoverPtoSupDir(new Ponto4D(e.Position.X, 600 - e.Position.Y, 0));
+        case Key.Escape:
+          Exit();
+          break;
+        case Key.M:
+          moverPto = !moverPto;
+          break;
       }
     }
 
     private void Sru3D()
     {
-      GL.LineWidth(1);
+      GL.LineWidth(7);
       GL.Begin(PrimitiveType.Lines);
       GL.Color3(Color.Red);
       GL.Vertex3(0, 0, 0); GL.Vertex3(200, 0, 0);

@@ -14,8 +14,8 @@ namespace gcgcg
 
     protected override void DesenharAramado()
     {
-      GL.LineWidth(base.PrimitivaTamanho);
-      GL.Color3(Color.White);
+      GL.PointSize(base.PrimitivaTamanho);
+      GL.Color3(Color.Yellow);
       GL.Begin(base.PrimitivaTipo);
       foreach (Ponto4D pto in pontosLista)
       {
@@ -34,13 +34,13 @@ namespace gcgcg
       pontosLista.Clear();
     }
 
-    protected override void PontosExibir()
-    {
-      Console.WriteLine("__ Objeto: " + base.rotulo);
-      for (var i = 0; i < pontosLista.Count; i++)
-      {
-        Console.WriteLine("P" + i + "[" + pontosLista[i].X + "," + pontosLista[i].Y + "," + pontosLista[i].Z + "," + pontosLista[i].W + "]");
-      }
-    }
+    // protected override void PontosExibir()
+    // {
+    //   Console.WriteLine("__ Objeto: " + base.rotulo);
+    //   for (var i = 0; i < pontosLista.Count; i++)
+    //   {
+    //     Console.WriteLine("P" + i + "[" + pontosLista[i].X + "," + pontosLista[i].Y + "," + pontosLista[i].Z + "," + pontosLista[i].W + "]");
+    //   }
+    // }
   }
 }
