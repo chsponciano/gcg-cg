@@ -29,12 +29,9 @@ namespace gcgcg
             var circuloC = new Circulo("C", -100, -100, 100);
             this.objetosLista.Add(circuloC);
 
-            this.objetosLista.Add(new SegReta("D", circuloA.Centro(), circuloB.Centro(),
-            5));
-            this.objetosLista.Add(new SegReta("E", circuloA.Centro(), circuloC.Centro(),
-            5));
-            this.objetosLista.Add(new SegReta("F", circuloB.Centro(), circuloC.Centro(),
-            5));
+            this.objetosLista.Add(new SegReta("D", circuloA.Centro(), circuloB.Centro(), 5));
+            this.objetosLista.Add(new SegReta("E", circuloA.Centro(), circuloC.Centro(), 5));
+            this.objetosLista.Add(new SegReta("F", circuloB.Centro(), circuloC.Centro(), 5));
 
             GL.ClearColor(Color.Gray);
         }
