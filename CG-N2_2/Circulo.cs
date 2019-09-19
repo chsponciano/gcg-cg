@@ -7,20 +7,17 @@ namespace gcgcg
     {
         public Circulo(string rotulo) : base(rotulo)
         {
-            this.criarPontos();
-        }
-
-        private void criarPontos()
-        {
-            base.PontosRemoverTodos();
-            for (double i = .0; i <= 72.0; i++)
+            for (double ponto = .0; ponto <= 72.0; ponto++) 
             {
-                var theta = 2.0 * Math.PI * i / 72.0;
-                var x = 100.0 * Math.Sin(theta);
-                var y = 100.0 * Math.Cos(theta);
-                base.PontosAdicionar(new Ponto4D(x, y));
+                var _anguloAtual = this.CalcularAngulo(ponto);
+                base.PontosAdicionar(new Ponto4D(this.CalcularEixoX(_anguloAtual), this.CalcularEixoY(_anguloAtual)));
             }
-
         }
+
+        private double CalcularAngulo(double ponto) => 2.0 * Math.PI * ponto / 72.0;
+
+        private double CalcularEixoX(double angulo) => 100 * Math.Sin(angulo);
+
+        private double CalcularEixoY(double angulo) => 100 * Math.Cos(angulo);
     }
 }
