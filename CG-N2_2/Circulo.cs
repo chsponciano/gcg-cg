@@ -1,23 +1,45 @@
 using System;
+using System.Drawing;
 using CG_Biblioteca;
+using OpenTK.Graphics.OpenGL;
 
 namespace gcgcg
 {
     internal class Circulo : ObjetoAramado
     {
-        public Circulo(string rotulo) : base(rotulo)
+        private double _raio;
+        private int _tamanho;
+        private int _eixoX;
+        private int _eixoY;
+
+        public Circulo(string rotulo, int eixoX, int eixoY, double raio, int tamanho = 5) : base(rotulo)
         {
-            for (double ponto = .0; ponto <= 72.0; ponto++) 
-            {
-                var _anguloAtual = this.CalcularAngulo(ponto);
-                base.PontosAdicionar(new Ponto4D(this.CalcularEixoX(_anguloAtual), this.CalcularEixoY(_anguloAtual)));
-            }
+            this._eixoX = eixoX;
+            this._eixoY = eixoY;
+            this._raio = raio;
+            this._tamanho = tamanho;
         }
 
-        private double CalcularAngulo(double ponto) => 2.0 * Math.PI * ponto / 72.0;
+        protected override void DesenharAramado()
+        {
+            GL.PointSize(this._tamanho);
+            GL.Begin(PrimitiveType.Points);
+            GL.Color3(Color.Black);
 
-        private double CalcularEixoX(double angulo) => 100 * Math.Sin(angulo);
+            double aux = .0;
+            for (double i = .0; i <= 72.0; i++) 
+            {
+                var pontoAtual = Matematica.GerarPtosCirculo(aux, this._raio);
+                GL.Vertex2(pontoAtual.X + this._eixoX, pontoAtual.Y + this._eixoY);
+                aux += 5;
+            }
 
-        private double CalcularEixoY(double angulo) => 100 * Math.Cos(angulo);
+            GL.End();
+        }
+        
+        public Ponto4D Centro()
+        {
+            return new Ponto4D(this._eixoX, this._eixoY);
+        }
     }
 }
