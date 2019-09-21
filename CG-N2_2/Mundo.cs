@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
@@ -12,7 +12,25 @@ namespace gcgcg
     {
         Camera camera = new Camera();
         protected List<Objeto> objetosLista = new List<Objeto>();
-        private bool moverPto = false;
+
+        private PrimitiveType _forma = PrimitiveType.Points;
+        
+        private List<PrimitiveType> _formas = new List<PrimitiveType>() 
+        {
+            PrimitiveType.Lines,
+            PrimitiveType.LineLoop,
+            PrimitiveType.LineStrip,
+            PrimitiveType.Triangles,
+            PrimitiveType.TriangleStrip,
+            PrimitiveType.TriangleFan,
+            PrimitiveType.Quads,
+            PrimitiveType.QuadStrip,
+            PrimitiveType.Polygon
+        };
+
+        private int _indiceAtual = 0;
+
+        private Ponto _ponto;
 
         public Mundo(int width, int height) : base(width, height) { }
 
@@ -20,18 +38,8 @@ namespace gcgcg
         {
             base.OnLoad(e);
             
-            var circuloA = new Circulo("A", 0, 100, 100);
-            this.objetosLista.Add(circuloA);
-
-            var circuloB = new Circulo("B", 100, -100, 100);
-            this.objetosLista.Add(circuloB);
-
-            var circuloC = new Circulo("C", -100, -100, 100);
-            this.objetosLista.Add(circuloC);
-
-            this.objetosLista.Add(new SegReta("D", circuloA.Centro(), circuloB.Centro(), 5));
-            this.objetosLista.Add(new SegReta("E", circuloA.Centro(), circuloC.Centro(), 5));
-            this.objetosLista.Add(new SegReta("F", circuloB.Centro(), circuloC.Centro(), 5));
+            this._ponto = new Ponto("Ponto", this._forma);
+            this.objetosLista.Add(this._ponto);
 
             GL.ClearColor(Color.Gray);
         }
@@ -64,15 +72,18 @@ namespace gcgcg
 
         protected override void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
         {
-            switch (e.Key)
+            if (e.Key == Key.Space)
             {
-                case Key.Escape:
-                    Exit();
-                    break;
-                case Key.M:
-                    moverPto = !moverPto;
-                    break;
+                this._indiceAtual = this._formas.FindIndex(x => x == this._forma);
+                if (this._indiceAtual == 8)
+                {
+                    this._indiceAtual = 0;
+                }
+                this._indiceAtual++;
+                this._forma = this._formas[this._indiceAtual];
             }
+
+            this._ponto.forma = this._forma; 
         }
 
         private void Sru3D()
