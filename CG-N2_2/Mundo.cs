@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
@@ -13,33 +13,19 @@ namespace gcgcg
         Camera camera = new Camera();
         protected List<Objeto> objetosLista = new List<Objeto>();
 
-        private PrimitiveType _forma = PrimitiveType.Points;
-        
-        private List<PrimitiveType> _formas = new List<PrimitiveType>() 
-        {
-            PrimitiveType.Lines,
-            PrimitiveType.LineLoop,
-            PrimitiveType.LineStrip,
-            PrimitiveType.Triangles,
-            PrimitiveType.TriangleStrip,
-            PrimitiveType.TriangleFan,
-            PrimitiveType.Quads,
-            PrimitiveType.QuadStrip,
-            PrimitiveType.Polygon
-        };
-
-        private int _indiceAtual = 0;
-
-        private Ponto _ponto;
+        private SegReta _srPalito;
 
         public Mundo(int width, int height) : base(width, height) { }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            
-            this._ponto = new Ponto("Ponto", this._forma);
-            this.objetosLista.Add(this._ponto);
+
+            // var circuloA = new Circulo("A", 0, 0, 100);
+            // this.objetosLista.Add(circuloA);
+
+            this._srPalito = new SegReta("Sr Palito", 100, 45, 50);
+            this.objetosLista.Add(this._srPalito);
 
             GL.ClearColor(Color.Gray);
         }
@@ -72,18 +58,32 @@ namespace gcgcg
 
         protected override void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
         {
-            if (e.Key == Key.Space)
+            switch (e.Key)
             {
-                this._indiceAtual = this._formas.FindIndex(x => x == this._forma);
-                if (this._indiceAtual == 8)
-                {
-                    this._indiceAtual = 0;
-                }
-                this._indiceAtual++;
-                this._forma = this._formas[this._indiceAtual];
+                case Key.Q:
+                    this._srPalito.AlterarEixoX(-1);
+                    break;
+                case Key.W:
+                    this._srPalito.AlterarEixoX(1);
+                    break;
+                case Key.A:	
+                    this._srPalito.Raio -= 1;
+                    this._srPalito.GerarPonto();
+                    break;	
+                case Key.S:	
+                    this._srPalito.Raio += 1;
+                    this._srPalito.GerarPonto();
+                    break;	
+                case Key.Z:	
+                    this._srPalito.Angulo -= 1;
+                    this._srPalito.GerarPonto();
+                    break;	
+                case Key.X:	
+                    this._srPalito.Angulo += 1;
+                    this._srPalito.GerarPonto();
+                    break;	
             }
 
-            this._ponto.forma = this._forma; 
         }
 
         private void Sru3D()
