@@ -24,7 +24,6 @@ namespace gcgcg
         set => _angulo = value;
     }
 
-
     public SegReta(string rotulo, int raio, int angulo, int tamanho) : base(rotulo)
     {
         this._raio = raio;
