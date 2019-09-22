@@ -47,6 +47,7 @@ namespace CG_Biblioteca
     // public static bool operator ==(Ponto4D pto1, Ponto4D pto2) {
     //   return ((pto1.X == pto2.X) && (pto1.Y == pto2.Y) && (pto1.Z == pto2.Z));
     // }
+
     // public static bool operator !=(Ponto4D pto1, Ponto4D pto2) {
     //   return ((pto1.X != pto2.X) && (pto1.Y != pto2.Y) && (pto1.Z != pto2.Z));
     // }
