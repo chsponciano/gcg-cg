@@ -80,14 +80,12 @@ namespace gcgcg
 
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
-        // Console.WriteLine("OnMouseDown");
         this.mousePressed = true;
         circuloA.SetMouseClick(GetMousePosition(e));
     }
 
     protected override void OnMouseUp(MouseButtonEventArgs e)
     {
-        // Console.WriteLine("OnMouseUp");
         this.mousePressed = false;
         circuloA.ResetLocation();
     }
@@ -96,21 +94,12 @@ namespace gcgcg
     {
         if (this.mousePressed)
         {
-            // Console.WriteLine("OnMouseMove");
             this.circuloA.Mover(GetMousePosition(e));
         }
     }
 
     private Ponto4D GetMousePosition(MouseEventArgs e)
     {
-        // Console.WriteLine((e.X - 20) + ", " + -(e.Y - 20));
-        // Console.WriteLine((e.X - 20) + ", " + -(e.Y - 580));
-        // return new Ponto4D((e.X - 20), (e.Y - 20));
-
-        // return new Ponto4D((e.X - 20), -(e.Y - 580));
-        // return new Ponto4D((e.X), (e.Y));
-        // return new Ponto4D((e.X - 245), -(e.Y - 345));
-        // var a = this.circuloA.Centro();
         return new Ponto4D((e.X - 300), -(e.Y - 300));
     }
 

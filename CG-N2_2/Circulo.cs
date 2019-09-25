@@ -39,27 +39,7 @@ namespace gcgcg
             this._mostrarMeio = mostrarMeio;
             this._taxa = _taxa;
             this._retangulo = _retangulo;
-            // this.CarregarPontosCirculo();
         }
-
-        // protected void CarregarPontosCirculo() {
-        //     // for (double i = .0; i <= 360.0; i++) 
-        //     // {
-        //     //     var pontoAtual = Matematica.GerarPtosCirculo(i, this._raio);
-        //     //     base.PontosAdicionar(new Ponto4D(pontoAtual.X + this.EixoX, pontoAtual.Y + this.EixoY));
-        //     // }
-        //     if (this._mostrarMeio)
-        //     {
-        //         // Console.WriteLine("DesenhaAmarrado: " + this.EixoX + ", " + this.EixoY);
-        //         base.PontosAdicionar(new Ponto4D(this.EixoX, this.EixoY));
-        //     }
-
-        //     for (double i = .0; i <= 360.0; i+=.5) 
-        //     {
-        //         var pontoAtual = Matematica.GerarPtosCirculo(i, this._raio);
-        //         base.PontosAdicionar(new Ponto4D(pontoAtual.X + this.EixoX, pontoAtual.Y + this.EixoY));
-        //     }
-        // }
 
         protected override void DesenharAramado()
         {
@@ -70,7 +50,6 @@ namespace gcgcg
             
             if (this._mostrarMeio)
             {
-                // Console.WriteLine("DesenhaAmarrado: " + this.EixoX + ", " + this.EixoY);
                 GL.Vertex2(this.EixoX, 
                            this.EixoY);
             }
@@ -89,20 +68,9 @@ namespace gcgcg
         {
             if (!isOutOfBounds(ponto))
             {
-                // var xDiff = Math.Abs(ponto.X) - Math.Abs(mouseClick.X);
-                // var yDiff = Math.Abs(ponto.Y) - Math.Abs(mouseClick.Y);
-
-                // var x = mouseClick.X < ponto.X ? ponto.X + xDiff : ponto.X - xDiff;
-                // var y = mouseClick.Y < ponto.Y ? ponto.Y + yDiff : ponto.Y - yDiff;
-                
-                // this._eixoX = (int) x;
-                // this._eixoY = (int) y;
-
-
-                this._eixoX = (int) ponto.X + 70;// - this._taxa - (int)this._raio;
-                this._eixoY = (int) ponto.Y + 70;// - this._taxa - (int)this._raio;
+                this._eixoX = (int) ponto.X + 70;
+                this._eixoY = (int) ponto.Y + 70;
                 this._retangulo.UpdateCor(new Ponto4D(this.EixoX, this.EixoY));
-                // Console.WriteLine(this._eixoX + ", " + this._eixoY);
             }
             else
             {
@@ -119,9 +87,7 @@ namespace gcgcg
         {
             var dist = Math.Pow(this._eixoX, 2) + Math.Pow(this._eixoY, 2);
             var a = Math.Pow(200, 2);
-            // Console.WriteLine(dist + " > " + a);
             return dist > a;
-            // return false;
         }
 
         public void ResetLocation() 

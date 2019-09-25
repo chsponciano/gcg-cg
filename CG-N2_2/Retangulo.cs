@@ -39,15 +39,6 @@ namespace gcgcg
     
     public void UpdateCor(Ponto4D ponto)
     {
-      // Console.WriteLine(ponto.X + ", " + ponto.Y);
-      Console.WriteLine((ponto.X+ this._raio + this._taxa) + "," 
-      +(ptoSupDir.X + this._raio + this._taxa) +"; "
-       +(ponto.X + this._raio + this._taxa) +","
-      +(ptoSupEsq.X + this._raio + this._taxa)+ "; " 
-       +(ptoSupDir.Y + this._raio + this._taxa) +","
-       +(ponto.Y + this._raio + this._taxa)+ "; " 
-       + (ptoInfDir.Y + this._raio + this._taxa)+ "," 
-        +(ponto.Y + this._raio + this._taxa));
       if (ponto.X == ptoSupDir.X  + this._raio + this._taxa
           || ponto.X == ptoSupEsq.X  + this._raio + this._taxa
           || ponto.Y == ptoSupDir.Y  + this._raio + this._taxa
