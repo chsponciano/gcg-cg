@@ -9,8 +9,8 @@ namespace gcgcg
   {
     protected string rotulo;
     private PrimitiveType primitivaTipo = PrimitiveType.Points;
-    private Color primitivaCor = Color.Black;
     private float primitivaTamanho = 7;
+    private Color primitivaCor = Color.Black;
 
     public Objeto(string rotulo)
     {
