@@ -37,16 +37,9 @@ namespace gcgcg
       }
     }
     
-    public void UpdateCor(Ponto4D ponto)
+    public void AtualizaCorDeAcordoComALocalizacaoDoRetangulo(Ponto4D ponto)
     {
-      if (ponto.X == ptoSupDir.X  + this._raio + this._taxa
-          || ponto.X == ptoSupEsq.X  + this._raio + this._taxa
-          || ponto.Y == ptoSupDir.Y  + this._raio + this._taxa
-          || ponto.Y == ptoInfDir.Y + this._raio + this._taxa)
-      {
-        base._cor = Color.Yellow;
-      }
-      else if (ponto.X >= ptoSupDir.X  + this._raio + this._taxa
+      if (ponto.X >= ptoSupDir.X  + this._raio + this._taxa
           || ponto.X <= ptoSupEsq.X  + this._raio + this._taxa
           || ponto.Y <= ptoSupDir.Y  + this._raio + this._taxa
           || ponto.Y >= ptoInfDir.Y + this._raio + this._taxa)

@@ -12,7 +12,6 @@ namespace gcgcg
         {
             get => _raio;
         }
-        private int _tamanho;
         private int _eixoX;
         public double EixoX 
         {
@@ -23,8 +22,6 @@ namespace gcgcg
         {
             get => _eixoY + _taxa + _raio;
         }
-        private int _eixoXOriginal;
-        private int _eixoYOriginal;
         private Ponto4D mouseClick;
         private bool _mostrarMeio;
         private int _taxa;
@@ -35,47 +32,43 @@ namespace gcgcg
             this._eixoX = eixoX;
             this._eixoY = eixoY;
             this._raio = raio;
-            this._tamanho = tamanho;
             this._mostrarMeio = mostrarMeio;
+            base.PrimitivaTamanho = tamanho;
             this._taxa = _taxa;
             this._retangulo = _retangulo;
+            this.CarregarPontos();
+            
         }
 
-        protected override void DesenharAramado()
+        private void CarregarPontos() 
         {
-            GL.PointSize(this._tamanho);
-            GL.Begin(PrimitiveType.Points);
-            GL.Color3(Color.Black);
-
-            
+            base.PontosRemoverTodos();
             if (this._mostrarMeio)
             {
-                GL.Vertex2(this.EixoX, 
-                           this.EixoY);
+                base.PontosAdicionar(new Ponto4D(this.EixoX, this.EixoY));
             }
 
             for (double i = .0; i <= 360.0; i+=.5) 
             {
                 var pontoAtual = Matematica.GerarPtosCirculo(i, this._raio);
-                GL.Vertex2(pontoAtual.X + this.EixoX, 
-                           pontoAtual.Y + this.EixoY);
+                base.PontosAdicionar(new Ponto4D(pontoAtual.X + this.EixoX, pontoAtual.Y + this.EixoY));
             }
-
-            GL.End();
         }
 
         public void Mover(Ponto4D ponto)
         {
             if (!isOutOfBounds(ponto))
             {
+                // 70 = taxa do circulo de fora + raio do cirulo de fora = 20 + 50
                 this._eixoX = (int) ponto.X + 70;
                 this._eixoY = (int) ponto.Y + 70;
-                this._retangulo.UpdateCor(new Ponto4D(this.EixoX, this.EixoY));
+                this._retangulo.AtualizaCorDeAcordoComALocalizacaoDoRetangulo(new Ponto4D(this.EixoX, this.EixoY));
             }
             else
             {
                 this._retangulo.SetCor(Color.LightBlue);
             }
+            this.CarregarPontos();
         }
 
         public void SetMouseClick(Ponto4D ponto)
@@ -92,9 +85,10 @@ namespace gcgcg
 
         public void ResetLocation() 
         {
-            this._eixoX = this._eixoXOriginal;
-            this._eixoY = this._eixoYOriginal;
+            this._eixoX = 0;
+            this._eixoY = 0;
             this._retangulo.SetCor(Color.Red);
+            this.CarregarPontos();
         }
         
         public Ponto4D Centro()
