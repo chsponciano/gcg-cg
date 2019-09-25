@@ -20,7 +20,7 @@ namespace CG_Biblioteca
     /// <param name="yMax"></param>
     /// <param name="zMin"></param>
     /// <param name="zMax"></param>
-    public Camera(double xMin = -300,double xMax = 300,double yMin = -300,double yMax = 300,double zMin = -1, double zMax = 600)
+    public Camera(double xMin = -20,double xMax = 600,double yMin = -20,double yMax = 600,double zMin = -1, double zMax = 600)
     {
       this.xMin = xMin; this.xMax = xMax;
       this.yMin = yMin; this.yMax = yMax;

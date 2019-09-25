@@ -8,6 +8,7 @@ namespace gcgcg
 {
   internal class ObjetoAramado : Objeto
   {
+    protected Color _cor = Color.Black;
     protected List<Ponto4D> pontosLista = new List<Ponto4D>();
 
     public ObjetoAramado(string rotulo) : base(rotulo) { }
@@ -15,7 +16,7 @@ namespace gcgcg
     protected override void DesenharAramado()
     {
       GL.PointSize(base.PrimitivaTamanho);
-      GL.Color3(Color.Yellow);
+      GL.Color3(this._cor);
       GL.Begin(base.PrimitivaTipo);
       foreach (Ponto4D pto in pontosLista)
       {

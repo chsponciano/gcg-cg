@@ -24,14 +24,21 @@ namespace gcgcg
     private Camera camera = new Camera();
     protected List<Objeto> objetosLista = new List<Objeto>();
     private bool moverPto = false;
-
+    private bool mousePressed = false;
     private Circulo circuloA;
+    private Circulo circuloB;
+    private Retangulo retangulo;
 
     protected override void OnLoad(EventArgs e)
     {
       base.OnLoad(e);
-      circuloA = new Circulo("A");            
+      retangulo = new Retangulo("A", new Ponto4D(-140, 140), new Ponto4D(140, -140), 200, 20);
+      circuloB = new Circulo("C", 0, 0, 200, null, false, 2);
+      circuloA = new Circulo("B", 0, 0, 50, retangulo, true, 2, 20 + (int) circuloB.Raio - 50);
+
       objetosLista.Add(circuloA);
+      objetosLista.Add(circuloB);
+      objetosLista.Add(retangulo);
       GL.ClearColor(Color.Gray);
     }
     protected override void OnUpdateFrame(FrameEventArgs e)
@@ -69,6 +76,42 @@ namespace gcgcg
           moverPto = !moverPto;
           break;
       }
+    }
+
+    protected override void OnMouseDown(MouseButtonEventArgs e)
+    {
+        // Console.WriteLine("OnMouseDown");
+        this.mousePressed = true;
+        circuloA.SetMouseClick(GetMousePosition(e));
+    }
+
+    protected override void OnMouseUp(MouseButtonEventArgs e)
+    {
+        // Console.WriteLine("OnMouseUp");
+        this.mousePressed = false;
+        circuloA.ResetLocation();
+    }
+
+    protected override void OnMouseMove(MouseMoveEventArgs e)
+    {
+        if (this.mousePressed)
+        {
+            // Console.WriteLine("OnMouseMove");
+            this.circuloA.Mover(GetMousePosition(e));
+        }
+    }
+
+    private Ponto4D GetMousePosition(MouseEventArgs e)
+    {
+        // Console.WriteLine((e.X - 20) + ", " + -(e.Y - 20));
+        // Console.WriteLine((e.X - 20) + ", " + -(e.Y - 580));
+        // return new Ponto4D((e.X - 20), (e.Y - 20));
+
+        // return new Ponto4D((e.X - 20), -(e.Y - 580));
+        // return new Ponto4D((e.X), (e.Y));
+        // return new Ponto4D((e.X - 245), -(e.Y - 345));
+        // var a = this.circuloA.Centro();
+        return new Ponto4D((e.X - 300), -(e.Y - 300));
     }
 
     private void Sru3D()
