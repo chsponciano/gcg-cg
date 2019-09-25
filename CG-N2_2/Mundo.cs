@@ -21,10 +21,7 @@ namespace gcgcg
         {
             base.OnLoad(e);
 
-            // var circuloA = new Circulo("A", 0, 0, 100);
-            // this.objetosLista.Add(circuloA);
-
-            this._srPalito = new SegReta("Sr Palito", 100, 45, 50);
+            this._srPalito = new SegReta("Sr Palito", 100, 45, 5);
             this.objetosLista.Add(this._srPalito);
 
             GL.ClearColor(Color.Gray);
