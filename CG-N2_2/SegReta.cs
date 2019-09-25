@@ -8,38 +8,32 @@ namespace gcgcg
   internal class SegReta : ObjetoAramado
   {
     protected Ponto4D _pontoA;
+    public Ponto4D PontoA{
+      get => this._pontoA;
+      set => this._pontoA = value;
+    }
     protected Ponto4D _pontoB;
-    protected int _tamanho;
-    protected Color _cor;
+    public Ponto4D PontoB{
+      get => this._pontoB;
+      set => this._pontoB = value;
+    }
 
     public SegReta(string rotulo, Ponto4D pontoA, Ponto4D pontoB, int tamanho, Color cor) : base(rotulo)
     {
       this._pontoA = pontoA;
       this._pontoB = pontoB;
-      this._tamanho = tamanho;
-      this._cor = cor;
+
+      base.PrimitivaCor = cor;
+      base.PrimitivaTamanho = tamanho;
+      base.PrimitivaTipo = PrimitiveType.Lines;
+
+      this.GerarPontos();
     }
     
-    protected override void DesenharAramado()
+    private void GerarPontos()
     {
-      GL.LineWidth(this._tamanho);
-      GL.Begin(PrimitiveType.Lines);
-      GL.Color3(this._cor);
-
-      GL.Vertex3(this._pontoA.X, this._pontoA.Y, 0); 
-      GL.Vertex3(this._pontoB.X, this._pontoB.Y, 0);
-      
-      GL.End();
-    }
-
-    public Ponto4D GetPontoA()
-    {
-      return this._pontoA;
-    }
-
-    public Ponto4D GetPontoB()
-    {
-      return this._pontoB;
+      base.PontosAdicionar(new Ponto4D(this._pontoA.X, this._pontoA.Y)); 
+      base.PontosAdicionar(new Ponto4D(this._pontoB.X, this._pontoB.Y));
     }
   }
 }

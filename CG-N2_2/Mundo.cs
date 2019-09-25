@@ -10,60 +10,64 @@ namespace gcgcg
 {
     class Mundo : GameWindow
     {
-        private static readonly double QUANTITY = 10.0;
-        private Camera camera = new Camera();
+        Camera camera = new Camera();
         protected List<Objeto> objetosLista = new List<Objeto>();
-        private bool moverPto = false;
-        private Spline spline;
-        private PontoDeControle pontoDeControleSelecionado;
-        private PontoDeControle pontoDeControle1;
-        private PontoDeControle pontoDeControle2;        
-        private PontoDeControle pontoDeControle3;        
-        private PontoDeControle pontoDeControle4;        
+
+        private readonly double _MOVER = 10.0;
+        private readonly Ponto4D[] _ORIGINAL = {
+            new Ponto4D(200, -200),
+            new Ponto4D(200, 200),
+            new Ponto4D(-200, 200),
+            new Ponto4D(-200, -200)
+        };
+
+        private Ponto4D _ponto4DA;
+        private Ponto4D _ponto4DB;
+        private Ponto4D _ponto4DC;
+        private Ponto4D _ponto4DD;
+        private SegReta _reta1;
+        private SegReta _reta2;
+        private SegReta _reta3;
+        private PontoDeControle _pontoA;
+        private PontoDeControle _pontoB;
+        private PontoDeControle _pontoC;
+        private PontoDeControle _pontoD;
+        private PontoDeControle _pontoAtivo;
+        private Spline _spline;
 
         public Mundo(int width, int height) : base(width, height) { }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            this._ponto4DA = new Ponto4D(-200, -200);
+            this._ponto4DB = new Ponto4D(-200, 200);
+            this._ponto4DC = new Ponto4D(200, 200);
+            this._ponto4DD = new Ponto4D(200, -200);
 
-            BuildSegReta();
-            BuildQuadradoComPontosDeControle();
+            this._pontoA = new PontoDeControle("A", this._ponto4DA, 20, Color.Black);
+            this._pontoB = new PontoDeControle("B", this._ponto4DB, 20, Color.Black);
+            this._pontoC = new PontoDeControle("C", this._ponto4DC, 20, Color.Black);
+            this._pontoD = new PontoDeControle("D", this._ponto4DD, 20, Color.Red);
+
+            this._reta1  = new SegReta("A", this._ponto4DA, this._ponto4DB, 100, Color.Cyan);
+            this._reta2  = new SegReta("B", this._ponto4DB, this._ponto4DC, 100, Color.Cyan);
+            this._reta3  = new SegReta("C", this._ponto4DC, this._ponto4DD, 100, Color.Cyan);
+
+            this._pontoAtivo = _pontoD;
+            this._spline = new Spline("Spline", this._ponto4DD, this._ponto4DC, this._ponto4DB, this._ponto4DA, 15, Color.Yellow);
+
+            objetosLista.Add(this._spline);
+            objetosLista.Add(this._reta1);
+            objetosLista.Add(this._reta2);
+            objetosLista.Add(this._reta3);
+            objetosLista.Add(this._pontoA);
+            objetosLista.Add(this._pontoB);
+            objetosLista.Add(this._pontoC);
+            objetosLista.Add(this._pontoD);
 
             GL.ClearColor(Color.Gray);
         }
-
-        private void BuildSegReta() 
-        {
-            var reta1 = new SegReta("A", new Ponto4D(0.0, 0.0), new Ponto4D(0.0, 200.0), 7, Color.Red);
-            var reta2 = new SegReta("B", new Ponto4D(0.0, 0.0), new Ponto4D(200.0, 0.0), 7, Color.Green);
-            this.objetosLista.Add(reta1);
-            this.objetosLista.Add(reta2);
-        }
-
-        private void BuildQuadradoComPontosDeControle() 
-        {
-            var reta3 = new SegReta("C", new Ponto4D(-100.0, 100.0), new Ponto4D( 100.0,  100.0), 2, Color.LightBlue);
-            var reta4 = new SegReta("D", new Ponto4D( 100.0, 100.0), new Ponto4D( 100.0, -100.0), 2, Color.LightBlue);
-            var reta5 = new SegReta("E", new Ponto4D(-100.0, 100.0), new Ponto4D(-100.0, -100.0), 2, Color.LightBlue);
-
-            this.spline = new Spline("F", new Ponto4D(100.0, -100.0), new Ponto4D(-100.0, -100.0), 2, Color.Yellow);
-
-            this.pontoDeControle1 = new PontoDeControle("G", reta3, reta5, Color.Black);
-            this.pontoDeControle2 = new PontoDeControle("H", reta3, reta4, Color.Black);
-            this.pontoDeControle3 = new PontoDeControle("I", reta5, spline, Color.Black);
-            this.pontoDeControle4 = new PontoDeControle("J", reta4, spline, Color.Black);
-
-            this.objetosLista.Add(pontoDeControle1);
-            this.objetosLista.Add(pontoDeControle2);
-            this.objetosLista.Add(pontoDeControle3);
-            this.objetosLista.Add(pontoDeControle4);
-            this.objetosLista.Add(reta3);
-            this.objetosLista.Add(reta4);
-            this.objetosLista.Add(reta5);
-            this.objetosLista.Add(spline);
-        }
-
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
@@ -72,7 +76,6 @@ namespace gcgcg
             GL.LoadIdentity();
             GL.Ortho(camera.xmin, camera.xmax, camera.ymin, camera.ymax, camera.zmin, camera.zmax);
         }
-
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
@@ -91,48 +94,45 @@ namespace gcgcg
         }
 
         protected override void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
-        {
+        {      
             switch (e.Key)
             {
                 case Key.Escape:
                     Exit();
                     break;
-                case Key.M:
-                    moverPto = !moverPto;
-                    break;
-                case Key.Keypad1:
                 case Key.Number1:
-                    this.Selecionar(this.pontoDeControle1);
+                    this._pontoAtivo = this._pontoA;
+                    this.Selecionar();
                     break;
-                case Key.Keypad2:
                 case Key.Number2:
-                    this.Selecionar(this.pontoDeControle2);
+                    this._pontoAtivo = this._pontoB;
+                    this.Selecionar();
                     break;
-                case Key.Keypad3:
                 case Key.Number3:
-                    this.Selecionar(this.pontoDeControle3);
+                    this._pontoAtivo = this._pontoC;
+                    this.Selecionar();
                     break;
-                case Key.Keypad4:
                 case Key.Number4:
-                    this.Selecionar(this.pontoDeControle4);
+                    this._pontoAtivo = this._pontoD;
+                    this.Selecionar();
                     break;
                 case Key.C:
-                    this.MoverParaCima();
-                    break;
-                case Key.E:
-                    this.MoverParaEsquerda();
+                    this.Mover(0, this._MOVER);
                     break;
                 case Key.B:
-                    this.MoverParaBaixo();
+                    this.Mover(0, -this._MOVER);
+                    break;
+                case Key.E:
+                    this.Mover(-this._MOVER, 0);
                     break;
                 case Key.D:
-                    this.MoverParaDireita();
+                    this.Mover(this._MOVER, 0);
                     break;
-                case Key.KeypadPlus:
-                    this.AdicionarPontosSpline();
+                case Key.Minus:
+                    this._spline.Incrementar();
                     break;
-                case Key.KeypadSubtract:
-                    this.DiminuirPontosSpline();
+                case Key.Plus:
+                    this._spline.Decrementar();
                     break;
                 case Key.R:
                     this.RestaurarPontosDeControle();
@@ -140,81 +140,41 @@ namespace gcgcg
             }
         }
 
-        public void AdicionarPontosSpline()
-        {
-            Console.WriteLine("AdicionarPontosSpline");
-        }
-
-        public void DiminuirPontosSpline()
-        {
-            Console.WriteLine("DiminuirPontosSpline");
-        }
-
-        public void RestaurarPontosDeControle()
-        {
-            this.pontoDeControle1.ResetPonto();
-            this.pontoDeControle2.ResetPonto();
-            this.pontoDeControle3.ResetPonto();
-            this.pontoDeControle4.ResetPonto();
-        }
-
-        private void MoverParaCima()
-        {
-            if (this.pontoDeControleSelecionado != null)
-            {
-                this.pontoDeControleSelecionado.Add(0.0, QUANTITY);
-            }
-        }
-
-        private void MoverParaBaixo()
-        {
-            if (this.pontoDeControleSelecionado != null)
-            {
-                this.pontoDeControleSelecionado.Add(0.0, -QUANTITY);
-            }
-        }
-
-        private void MoverParaDireita()
-        {
-            if (this.pontoDeControleSelecionado != null)
-            {
-                this.pontoDeControleSelecionado.Add(QUANTITY, 0.0);
-            }
-        }
-
-        private void MoverParaEsquerda() 
-        {
-            if (this.pontoDeControleSelecionado != null)
-            {
-                this.pontoDeControleSelecionado.Add(-QUANTITY, 0.0);
-            }
-        }
-
-        private void Selecionar(PontoDeControle pontoDeControle)
-        {
-            if (this.pontoDeControleSelecionado != null)
-            {
-                this.pontoDeControleSelecionado.SetCor(Color.Black);    
-            }
-            this.pontoDeControleSelecionado = pontoDeControle;
-            this.pontoDeControleSelecionado.SetCor(Color.Red);
-        }
-
         private void Sru3D()
         {
-            // GL.LineWidth(7);
-            // GL.Begin(PrimitiveType.Lines);
-            // GL.Color3(Color.Red);
-            // GL.Vertex3(0, 0, 0); GL.Vertex3(200, 0, 0);
-            // GL.Color3(Color.Green);
-            // GL.Vertex3(0, 0, 0); GL.Vertex3(0, 200, 0);
-            // GL.Color3(Color.Blue);
-            // GL.Vertex3(0, 0, 0); GL.Vertex3(0, 0, 200);
-            // GL.End();
+            GL.LineWidth(7);
+            GL.Begin(PrimitiveType.Lines);
+            GL.Color3(Color.Red);
+            GL.Vertex3(0, 0, 0); GL.Vertex3(200, 0, 0);
+            GL.Color3(Color.Green);
+            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 200, 0);
+            GL.Color3(Color.Blue);
+            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 0, 200);
+            GL.End();
         }
 
-    }
+        private void Selecionar()
+        {
+            this._pontoA.Cor((this._pontoA == this._pontoAtivo) ? Color.Red : Color.Black);
+            this._pontoB.Cor((this._pontoB == this._pontoAtivo) ? Color.Red : Color.Black);
+            this._pontoC.Cor((this._pontoC == this._pontoAtivo) ? Color.Red : Color.Black);
+            this._pontoD.Cor((this._pontoD == this._pontoAtivo) ? Color.Red : Color.Black);
+        }
 
+        private void Mover(double x, double y)
+        {
+            this._pontoAtivo.Ponto.X += x;
+            this._pontoAtivo.Ponto.Y += y;
+        }
+
+        private void RestaurarPontosDeControle()
+        {
+            this._pontoA.Ponto = this._ORIGINAL[3];
+            this._pontoB.Ponto = this._ORIGINAL[2];
+            this._pontoC.Ponto = this._ORIGINAL[1];
+            this._pontoD.Ponto = this._ORIGINAL[0];
+        }
+    }
     class Program
     {
         static void Main(string[] args)
